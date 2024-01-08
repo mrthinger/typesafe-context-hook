@@ -1,0 +1,45 @@
+{
+  "name": "typesafe-context-hook",
+  "version": "1.0.0",
+  "description": "A react-typescript utility for creating typesafe React context hooks. It provides a function that takes a name and a hook, and returns an object with a custom hook, a provider component, and a higher-order component. The custom hook can only be used within the provider component.",
+  "main": "typesafe-context-hook.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrthinger/typesafe-context-hook.git"
+  },
+  "keywords": [
+    "react-context",
+    "create-context",
+    "create-context-state",
+    "create-react-hook",
+    "create-react-context",
+    "react-component",
+    "state management",
+    "data flow",
+    "react",
+    "redux",
+    "immutable",
+    "hook",
+    "state",
+    "mobx",
+    "context",
+    "observable",
+    "reactjs",
+    "utils",
+    "jsx",
+    "tsx",
+    "typescript"
+  ],
+  "author": "Evan Pierce",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.47",
+    "typescript": "^5.3.3"
+  }
+}
