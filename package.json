@@ -1,6 +1,6 @@
 {
   "name": "typesafe-context-hook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A react-typescript utility for creating typesafe React context hooks. It provides a function that takes a name and a hook, and returns an object with a custom hook, a provider component, and a higher-order component. The custom hook can only be used within the provider component.",
   "main": "typesafe-context-hook.tsx",
   "scripts": {
@@ -35,6 +35,10 @@
   ],
   "author": "Evan Pierce",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrthinger/typesafe-context-hook/issues"
+  },
+  "homepage": "https://github.com/mrthinger/typesafe-context-hook#readme",
   "dependencies": {
     "react": "^18.2.0"
   },
