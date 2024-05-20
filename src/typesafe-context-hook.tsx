@@ -5,40 +5,30 @@ import React, {
   type ReactNode,
 } from "react";
 
-type ProviderProps<TArgs extends any[]> = {
+type ProviderProps<TArgs> = {
   children?: ReactNode;
-  args?: TArgs;
-};
+} & TArgs;
 
-type Result<TValue, TName extends string, TArgs extends any[]> = {
-  [K in
-    | `use${TName}`
-    | `${TName}Provider`
-    | `with${TName}`]: K extends `use${TName}`
+type Result<TValue, TName extends string, TArgs> = {
+  [K in `use${TName}` | `${TName}Provider`]: K extends `use${TName}`
     ? () => TValue
     : K extends `${TName}Provider`
     ? FC<ProviderProps<TArgs>>
-    : K extends `with${TName}`
-    ? <TProps extends object>(
-        WrappedComponent: React.ComponentType<TProps>
-      ) => (props: TProps) => JSX.Element
     : never;
 };
 
 function typesafeContextHook<
   TName extends string,
-  TValue = any,
-  TArgs extends any[] = []
->(name: TName, hook: (...args: TArgs) => TValue): Result<TValue, TName, TArgs> {
+  TValue,
+  TArgs extends object
+>(name: TName, hook: (args: TArgs) => TValue): Result<TValue, TName, TArgs> {
   const Context = createContext<TValue | null>(null);
 
-  const Provider: FC<ProviderProps<TArgs>> = ({
-    children,
-    args = [] as unknown as TArgs,
-  }) => {
-    const value = hook(...args);
+  const Provider: FC<ProviderProps<TArgs>> = ({ children, ...args }) => {
+    const value = hook(args as TArgs);
     return <Context.Provider value={value}>{children}</Context.Provider>;
   };
+
   function useNamedCustomHook(): TValue {
     const value = useContext(Context);
 
@@ -49,22 +39,9 @@ function typesafeContextHook<
     return value;
   }
 
-  function withHook<TProps extends object>(
-    WrappedComponent: React.ComponentType<TProps>
-  ) {
-    return function WrappedWithHook(props: TProps) {
-      return (
-        <Provider>
-          <WrappedComponent {...props} />
-        </Provider>
-      );
-    };
-  }
-
   return {
     [`use${name}`]: useNamedCustomHook,
     [`${name}Provider`]: Provider,
-    [`with${name}`]: withHook,
   } as Result<TValue, TName, TArgs>;
 }
 
