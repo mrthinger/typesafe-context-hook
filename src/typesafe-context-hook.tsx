@@ -1,27 +1,44 @@
-import React, { createContext, useContext, type FC, type ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  type FC,
+  type ReactNode,
+} from "react";
 
-type ProviderProps = {
+type ProviderProps<TArgs extends any[]> = {
   children?: ReactNode;
+  args?: TArgs;
 };
 
-type Result<TValue, TName extends string> = {
-  [K in `use${TName}` | `${TName}Provider` | `with${TName}`]: K extends `use${TName}`
+type Result<TValue, TName extends string, TArgs extends any[]> = {
+  [K in
+    | `use${TName}`
+    | `${TName}Provider`
+    | `with${TName}`]: K extends `use${TName}`
     ? () => TValue
     : K extends `${TName}Provider`
-    ? FC<ProviderProps>
+    ? FC<ProviderProps<TArgs>>
     : K extends `with${TName}`
-    ? <TProps extends object>(WrappedComponent: React.ComponentType<TProps>) => (props: TProps) => JSX.Element
+    ? <TProps extends object>(
+        WrappedComponent: React.ComponentType<TProps>
+      ) => (props: TProps) => JSX.Element
     : never;
 };
 
-function typesafeContextHook<TName extends string, TValue = any>(name: TName, hook: () => TValue): Result<TValue, TName> {
+function typesafeContextHook<
+  TName extends string,
+  TValue = any,
+  TArgs extends any[] = []
+>(name: TName, hook: (...args: TArgs) => TValue): Result<TValue, TName, TArgs> {
   const Context = createContext<TValue | null>(null);
 
-  const Provider: FC<ProviderProps> = ({ children }) => {
-    const value = hook();
+  const Provider: FC<ProviderProps<TArgs>> = ({
+    children,
+    args = [] as unknown as TArgs,
+  }) => {
+    const value = hook(...args);
     return <Context.Provider value={value}>{children}</Context.Provider>;
   };
-
   function useNamedCustomHook(): TValue {
     const value = useContext(Context);
 
@@ -33,7 +50,7 @@ function typesafeContextHook<TName extends string, TValue = any>(name: TName, ho
   }
 
   function withHook<TProps extends object>(
-    WrappedComponent: React.ComponentType<TProps>,
+    WrappedComponent: React.ComponentType<TProps>
   ) {
     return function WrappedWithHook(props: TProps) {
       return (
@@ -48,7 +65,7 @@ function typesafeContextHook<TName extends string, TValue = any>(name: TName, ho
     [`use${name}`]: useNamedCustomHook,
     [`${name}Provider`]: Provider,
     [`with${name}`]: withHook,
-  } as Result<TValue, TName>;
+  } as Result<TValue, TName, TArgs>;
 }
 
 export default typesafeContextHook;
