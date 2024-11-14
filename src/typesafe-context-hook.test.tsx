@@ -1,7 +1,7 @@
 import React from "react";
 import typesafeContextHook from "./typesafe-context-hook";
 
-export const { useExample, ExampleProvider } = typesafeContextHook(
+export const { useExampleContext, ExampleProvider } = typesafeContextHook(
   "Example",
   ({ exampleId }: { exampleId: string }) => {}
 );

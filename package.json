@@ -1,6 +1,6 @@
 {
   "name": "typesafe-context-hook",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "A react-typescript utility for creating typesafe React context hooks. It provides a function that takes a name and a hook, and returns an object with a custom hook, a provider component, and a higher-order component. The custom hook can only be used within the provider component.",
   "main": "dist/typesafe-context-hook.js",
   "types": "dist/typesafe-context-hook.d.ts",
@@ -40,11 +40,12 @@
     "url": "https://github.com/mrthinger/typesafe-context-hook/issues"
   },
   "homepage": "https://github.com/mrthinger/typesafe-context-hook#readme",
-  "dependencies": {
-    "react": "^18.2.0"
+  "peerDependencies": {
+    "react": ">=18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.47",
-    "typescript": "^5.3.3"
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1",
+    "typescript": "^5.6.3"
   }
 }

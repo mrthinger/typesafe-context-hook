@@ -10,7 +10,7 @@ type ProviderProps<TArgs> = {
 } & TArgs;
 
 type Result<TValue, TName extends string, TArgs> = {
-  [K in `use${TName}` | `${TName}Provider`]: K extends `use${TName}`
+  [K in `use${TName}Context` | `${TName}Provider`]: K extends `use${TName}Context`
     ? () => TValue
     : K extends `${TName}Provider`
     ? FC<ProviderProps<TArgs>>
@@ -29,18 +29,18 @@ function typesafeContextHook<
     return <Context.Provider value={value}>{children}</Context.Provider>;
   };
 
-  function useNamedCustomHook(): TValue {
+  function useNamedContextHook(): TValue {
     const value = useContext(Context);
 
     if (value === null) {
-      throw new Error(`use${name} must be used within a ${name}Provider`);
+      throw new Error(`use${name}Context must be used within a ${name}Provider`);
     }
 
     return value;
   }
 
   return {
-    [`use${name}`]: useNamedCustomHook,
+    [`use${name}Context`]: useNamedContextHook,
     [`${name}Provider`]: Provider,
   } as Result<TValue, TName, TArgs>;
 }
