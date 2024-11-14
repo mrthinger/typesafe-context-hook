@@ -1,6 +1,6 @@
 {
   "name": "typesafe-context-hook",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A react-typescript utility for creating typesafe React context hooks. It provides a function that takes a name and a hook, and returns an object with a custom hook, a provider component, and a higher-order component. The custom hook can only be used within the provider component.",
   "main": "dist/typesafe-context-hook.js",
   "types": "dist/typesafe-context-hook.d.ts",

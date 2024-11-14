@@ -21,7 +21,7 @@ yarn i typesafe-context-hook
 import typesafeContextHook from 'typesafe-context-hook';
 import { useState } from 'react';
 
-export const { useName, NameProvider, withName } = typesafeContextHook('Name', () => {
+export const { useNameContext, NameProvider } = typesafeContextHook('Name', () => {
   const [name, setName] = useState('John Doe');
   return { name, setName };
 });
@@ -29,7 +29,7 @@ export const { useName, NameProvider, withName } = typesafeContextHook('Name', (
 
 ```tsx
 // In another file
-import { useName, NameProvider } from './name-context.tsx';
+import { useNameContext, NameProvider } from './name-context.tsx';
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
 }
 
 function AnotherComponent() {
-  const { name, setName } = useName();
+  const { name, setName } = useNameContext();
   // Now you can use name and setName in this component
 }
 ```
